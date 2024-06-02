@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../shared/header";
 import Footer from "../shared/footer";
 import booksData from "../data/books";
 
 const Index = () => {
+  const [books, setBooks] = useState([]); 
+
+  useEffect(() => {
+    setBooks(booksData); 
+  }, []); 
+
   return (
     <div>
-      <Header />
+      
       <main>
         <h1>CODESQUAD COMICS</h1>
         <p>
@@ -22,8 +28,8 @@ const Index = () => {
         </p>
         <section>
           <h2>COMPLETE COMIC COLLECTION</h2>
-          {booksData.map((book) => (
-            <div className="individual-comics">
+          {books.map((book) => (
+            <div className="individual-comics" key={book.id}>
               <a href="#">
                 <img
                   src={`./images/${book.image}`}
@@ -42,11 +48,9 @@ const Index = () => {
               <br />
             </div>
           ))}
-
-         
         </section>
       </main>
-      <Footer />
+     
     </div>
   );
 };

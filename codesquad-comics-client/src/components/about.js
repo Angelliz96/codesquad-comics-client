@@ -5,7 +5,7 @@ const About = () => {
     return (
         <div>
         <main>
-            <Header />
+            {/* <Header /> */}
             <h1>ABOUT CODESQUAD COMICS</h1>
             <p>CodeSquad Comics is a collection of graphic novels read by Angely Lizcano. Copyrighted images are used for review purposes only. Meta information about this<br /> collection can be found below. A detailed list of all the graphic novels in this collection can be found on the homepage. Additional details about each comic book, <br /> including the author, genre, number of pages, and a brief synopsis, can be found by navigating to the homepage and clicking the image of the book cover or the <br /> Details link for the desired graphic novel.</p>
 
@@ -21,7 +21,7 @@ const About = () => {
                 </div>
             </section>
             </main>
-            <Footer />
+            {/* <Footer /> */}
         
         </div>
     );

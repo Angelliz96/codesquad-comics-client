@@ -4,7 +4,7 @@ import Footer from '../shared/footer';
 const Update = () => {
   return (
     <div>
-      <Header />
+      
       <main>
         <h2>Update Page</h2>
 
@@ -85,7 +85,7 @@ const Update = () => {
           <br />
         </form>
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
