@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Header from './shared/header';
 import Footer from './shared/footer';
 import Index from './components/home';
@@ -10,14 +10,17 @@ import Signup from './components/Signup';
 import Update from './components/update';
 
 function App() {
-  const [user, setUser] = useState(() => {
-    const savedUser = localStorage.getItem('user');
-    return savedUser ? JSON.parse(savedUser) : {};
-  });
+  const [user, setUser] = useState(localStorage.getItem("user") || {});
+  
 
-  useEffect(() => {
-    localStorage.setItem('user', JSON.stringify(user));
-  }, [user]);
+  //   {
+    
+  //   return savedUser ? JSON.parse(savedUser) : {};
+  // });
+
+  // useEffect(() => {
+  //   localStorage.setItem('user', JSON.stringify(user));
+  // }, [user]);
 
   return (
     <div className="App">

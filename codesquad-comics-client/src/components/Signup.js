@@ -7,10 +7,9 @@ const Signup = () => {
   const [password, setPassword] = useState("");
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // Prevenir comportamiento por defecto del formulario
+    e.preventDefault(); 
     console.log('Signup form submitted');
 
-    // Imprimir los valores de los campos del formulario
     console.log(`First Name: ${firstName}`);
     console.log(`Last Name: ${lastName}`);
     console.log(`Username: ${username}`);
