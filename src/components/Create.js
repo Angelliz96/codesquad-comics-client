@@ -1,13 +1,40 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Create = () => {
+  const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault(); 
-    console.log('Form submitted');
     const formData = new FormData(event.target);
-    for (const [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
+    const body = {
+      title: formData.get("title"),
+      author: formData.get("author"),
+      publisher: formData.get("publisher"),
+      genre: formData.get("genre"),
+      numberpage: formData.get("numberpage"),
+      rating: formData.get("rating"),
+      synopsis: formData.get("synopsis"),
+    };
+
+    try {
+      const response = await fetch("http://localhost:8080/api/books/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const result = await response.json();
+      console.log("Book created successfully", result);
+      navigate("/admin");
+    } catch (error) {
+      console.error("Create error:", error);
     }
   };
 
@@ -82,7 +109,6 @@ const Create = () => {
           <button type="submit">Submit</button>
         </form>
       </main>
-     
     </div>
   );
 };

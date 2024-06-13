@@ -1,19 +1,41 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = ({ user, setUser }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault(); 
-    console.log('Form submitted');
 
-  
-    console.log(`Email: ${email}`);
-    console.log(`Password: ${password}`);
+    const body = {
+      username: email,
+      password: password,
+    };
 
-    const loggedInUser = { email, name: "" }; 
-    setUser(loggedInUser);
+    fetch("http://localhost:8080/login/local", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((result) => {
+      console.log("Login successful");
+      localStorage.setItem("user", JSON.stringify(result.data));
+      setUser(result.data);
+      navigate("/admin");
+    })
+    .catch((error) => {
+      console.error("Login error:", error);
+    });
   };
 
   return (
@@ -24,7 +46,7 @@ const Login = ({ user, setUser }) => {
           <label htmlFor="email">Email address:</label>
           <input
             type="email"
-            id={"email"}
+            id="email"
             name="email"
             placeholder="Email"
             value={email}

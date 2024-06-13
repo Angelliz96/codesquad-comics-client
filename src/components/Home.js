@@ -1,17 +1,34 @@
 import React, { useState, useEffect } from "react";
+// import { BrowserRouter } from "react-router-dom";
 
-import booksData from "../data/books";
 
-const Home = () => {
-  const [books, setBooks] = useState([]); 
+function Home() {
+  const [allBooks, setAllBooks] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    setBooks(booksData); 
-  }, []); 
+    fetch("http://localhost:8080/api/books", {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.statusCode === 200) {
+          setAllBooks(result.data);
+        } else {
+          throw new Error(result.error.message);
+        }
+      })
+      .catch((error) => setErrorMessage(error.message));
+  }, []);
+
+  console.log("allBooks: >>", allBooks);
+  console.log("errorMessage : >>", errorMessage);
 
   return (
     <div>
-      
       <main>
         <h1>CODESQUAD COMICS</h1>
         <p>
@@ -27,31 +44,34 @@ const Home = () => {
         </p>
         <section>
           <h2>COMPLETE COMIC COLLECTION</h2>
-          {books.map((book) => (
-            <div className="individual-comics" key={book.id}>
-              <a href="#">
-                <img
-                  src={`./images/${book.image}`}
-                  alt={`${book.title}`}
-                  width="200px"
-                />
-              </a>
-              <p>
-                <em>{book.title}</em>
+          {errorMessage ? (
+            <p>{errorMessage}</p>
+          ) : (
+            allBooks && allBooks.map((book) => (
+              <div className="individual-comics" key={book.id}>
+                <a href="#">
+                  <img
+                    src={`./images/${book.image}`}
+                    alt={`${book.title}`}
+                    width="200px"
+                  />
+                </a>
+                <p>
+                  <em>{book.title}</em>
+                  <br />
+                  by {book.author}
+                  <br />
+                  {book.rating} stars
+                </p>
+                `<a href="#">`Details</a>
                 <br />
-                by {book.author}
-                <br />
-                {book.rating} stars
-              </p>
-              <a href="#">Details</a>
-              <br />
-            </div>
-          ))}
+              </div>
+            ))
+          )}
         </section>
       </main>
-     
     </div>
   );
-};
+}
 
 export default Home;

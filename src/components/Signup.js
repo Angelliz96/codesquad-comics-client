@@ -1,19 +1,45 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const Signup = () => {
+const Signup = ({ setUser }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
-    e.preventDefault(); 
-    console.log('Signup form submitted');
+    e.preventDefault();
 
-    console.log(`First Name: ${firstName}`);
-    console.log(`Last Name: ${lastName}`);
-    console.log(`Username: ${username}`);
-    console.log(`Password: ${password}`);
+    const body = {
+      firstName: firstName,
+      lastName: lastName,
+      username: username,
+      password: password,
+    };
+
+    fetch("http://localhost:8080/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((result) => {
+      console.log("Signup successful");
+      localStorage.setItem("user", JSON.stringify(result.data));
+      setUser(result.data);
+      navigate("/admin");
+    })
+    .catch((error) => {
+      console.error("Signup error:", error);
+    });
   };
 
   return (
