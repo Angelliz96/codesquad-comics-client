@@ -26,7 +26,7 @@ function App() {
     <div className="App">
       <Header user={user} setUser={setUser} />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home />} />x
         <Route path="/about" element={<About />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/create" element={<Create />} />
